@@ -1,5 +1,5 @@
-import Sequelize from "sequelize";
-// import { Users } from "../models/user.js"
+import { Sequelize } from 'sequelize';
+
 
 
 export const sequelize = new Sequelize("postgres://kliuvert:58S8KOgMkecN5y7XOAx2XQqRK2FVDnff@dpg-cnf2tof79t8c73ce6r90-a.oregon-postgres.render.com/shopdb_ptrw?ssl=true",{})
