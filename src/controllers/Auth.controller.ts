@@ -2,21 +2,10 @@ import { User } from '../models/user'
 import { hashedPw, comparePassWord } from '../helpers/hashedpassword';
 import { Request, Response, NextFunction } from 'express';
 import { AuthErrors } from '../errors/AuthError';
-import { error } from 'console';
 import { databaseError } from '../errors/DatabaseError';
 import {Op} from 'sequelize'
 
 
-
-export const funAsync = (func: any) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            func(req, res, next);
-        } catch (err: any) {
-            next(error);
-        }
-    };
-}
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
     const { Name, email,password} = req.body
@@ -49,7 +38,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
 
 }
 
-export const logIn = funAsync(async (req: Request, res: Response) => {
+export const logIn = async (req: Request, res: Response) => {
     res.send('welcome')
-})
+}
 
