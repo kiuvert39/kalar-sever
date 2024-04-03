@@ -1,8 +1,10 @@
 export abstract class CustomeError extends Error{
-   abstract statusCode: number;
-    constructor(public message : string){
-        super(message);
+    statusCode:any;
+   
+    constructor(public message : string, statusCode : number){
+        super(message,);
+        this.statusCode
         
     }
-    abstract serialize(): {message: string}
+    abstract serialize(): {message: string,}
 }

@@ -1,7 +1,7 @@
 
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/dbConnection';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 export const User = sequelize.define('test', {
     id: {
@@ -29,17 +29,15 @@ export const User = sequelize.define('test', {
         validate: {
             len: [8, 255]
         }
+    },
+    token:{
+        type: DataTypes.STRING,
+        defaultValue: null
     }
 }, {
     tableName: 'users',
     timestamps: false,
-    hooks: {
-        async beforeCreate(user: any) {
-            const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(user.password, saltRounds);
-            user.password = hashedPassword;
-        }
-    }
+  
 });
 
 User.sync({ alter:true })
