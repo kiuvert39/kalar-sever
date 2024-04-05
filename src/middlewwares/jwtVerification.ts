@@ -1,37 +1,37 @@
-import { Request,Response, NextFunction } from "express";
-import jwt  from "jsonwebtoken";
-import dotenv from "dotenv"
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import { AuthErrors } from "../errors/AuthError";
+import { error } from "console";
 
-dotenv.config()
+dotenv.config();
 
-export const verifyJwt =  (req: Request, res: Response, next:NextFunction) =>{
-  try {
-    // Get token from header, query string, or body
-    const token = req.header('Authorization') || req.query.token || req.body.token;
+export const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.header('authorization') || req.query.token || req.body.token;
   
-    // Check if token is provided
-    if (!token) {
-      return res.status(401).json({ message: 'Access denied. No token provided.' });
-    }
-  
+    
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
+  console.log(token)
+  const auth = token.split(' ')[1]
+  try {  
+     
     if (!process.env.secret_key || typeof process.env.secret_key !== 'string') {
       throw new Error('Secret key not found or not a string in environment variables.');
     }
-      // Verify token
-      const decoded = jwt.verify(token, process.env.secret_key);
-        console.log('middleware')
-        
-      // Add user from payload to request object
-      req.id = decoded.toString();
-  
-      // Proceed to next middleware or route handler
-      next();
-    } catch (error) {
-      // Token is invalid
-      console.log('middleware');
+   
+    const decoded = jwt.verify(auth, process.env.secret_key,(error: any, decoded: any)=> {
+        if (error){
+         return res.status(403)
+      }
 
-      return res.status(403).json({ message: 'Invalid token.' });
-      
+      req.id = decoded.id;
+      next();
+    } );
+
+  
+    } catch (error) {
+      return res.status(403).json({ message: 'Invalid token.',error });
     }
-  }
+};

@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/api/auth/', register)
-app.use('/api/auth/', dash)
+app.use('/api/auth/', login)
 app.use('/api/auth/', dash)
 
 

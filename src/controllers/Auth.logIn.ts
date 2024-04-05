@@ -1,5 +1,4 @@
 import { User } from "../models/user";
-import { comparePassWord } from "../helpers/hashedpassword";
 import { Request, Response, NextFunction } from "express";
 import { AuthErrors } from "../errors/AuthError";
 import jwt from "jsonwebtoken";
@@ -30,25 +29,26 @@ export const logIn = async (
       );
     }
 
-    const isMatch = await bcrypt.compare(password, existingUser.get(password))
+    const isMatch = await bcrypt.compare(password, existingUser.get().password)
 
     if (isMatch) {
 
-      const token = jwt.sign({'id': existingUser.get('id')}, `${process.env.secret_key}`, {
-        expiresIn: "30s",
+      const token = jwt.sign({id: existingUser.get().id}, `${process.env.secret_key}`, {
+        expiresIn: "1h",
       });
 
       existingUser.get().token = token;
-      
-      const options = {
-        expires: new Date(Date.now() + 1000),
-        httpOnly: true,
-      };
 
-      res
-        .status(200)
-        .cookie("token", token, options)
+      res.cookie("token", token,{ 
+        httpOnly: false,
+      
+        sameSite: 'none',
+        maxAge:  24 * 60 * 60 + 1000,
+      })
         .json({ message: "logined in", token })
+    }
+    else{ 
+      return res.status(300).json({ message: "incorrect email or password"})
     }
   } catch (error) {
     next(error);
