@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { dbConnection } from "./src/database/dbConnection";
-import {register,login, dash }from "./src/routes/Auth";
+import {register,login, dash, Authstatus }from "./src/routes/Auth";
 import { golbalerror } from "./src/middlewwares/golbalError.middleware";
 import 'express-async-errors'
 import { AuthErrors  } from "./src/errors/AuthError";
 import { NotFoundError } from "./src/errors/NotFoundErrors";
+import { status } from "./src/controllers/AuthStatus";
 
 
 
@@ -17,15 +18,20 @@ const app = express()
 const PORT: number = parseInt(process.env.PORT!, 10);
 
 
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
+
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use('/api/auth/', register)
-app.use('/api/auth/', login)
-app.use('/api/auth/', dash)
+app.use('/api/auth/', register);
+app.use('/api/auth/', login);
+app.use('/api/auth/', Authstatus);
+app.use('/api/auth/', dash);
 
 
 

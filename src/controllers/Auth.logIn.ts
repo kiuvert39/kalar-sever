@@ -18,15 +18,13 @@ export const logIn = async (
 
     const existingUser = await User.findOne({
       where: {
-        [Op.or]: [{ email: { [Op.eq]: email } }],
+        [Op.or]: [{ email: { [Op.eq]: email } }]
       },
     });
 
-    //checking is user exist for signing in
+
     if (!existingUser) {
-      return next(
-        new AuthErrors("User with email does not exist! please register ", 404)
-      );
+      return res.status(404).json({ message: "incorrect email or password"});
     }
 
     const isMatch = await bcrypt.compare(password, existingUser.get().password)
@@ -39,17 +37,27 @@ export const logIn = async (
 
       existingUser.get().token = token;
 
+      const user = { 
+        id: existingUser.get().id,
+        Name: existingUser.get().name,
+        email: existingUser.get().email,
+        createdAt: existingUser.get().createdAt,
+        updatedAt: existingUser.get().updatedAt,
+       }
+
       res.cookie("token", token,{ 
-        httpOnly: false,
-      
+        httpOnly: true,
         sameSite: 'none',
-        maxAge:  24 * 60 * 60 + 1000,
+        maxAge: 3600000,
+        secure: true,
+        domain: "localhost",
+        path: "/"
       })
-        .json({ message: "logined in", token })
+        .json({ message: "logined in",user, token });
     }
-    else{ 
-      return res.status(300).json({ message: "incorrect email or password"})
-    }
+    
+    return res.status(404).json({ message: "incorrect email or password"})
+  
   } catch (error) {
     next(error);
   }
