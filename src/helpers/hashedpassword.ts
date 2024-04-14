@@ -1,29 +1,24 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
-const saltRounds: number = 12
 
-export async function hashedPw(password:string): Promise<string>{
+export async function hashedPw(password:string){
     try{
-        return new Promise( (resolve, reject) =>{
-            const hashed = bcrypt.hash( password, saltRounds)
-            if(!hashed){
-                return reject(hashed)
-            }
-            resolve(hashed)
-        })
+         const hashed = bcrypt.hash( password, 12)
+         return hashed
     }
     catch(error)
     {
-        throw new Error('Error hashing password')
+        throw new Error('Error hashing password');
     }
     
 }
 
 export async function comparePassWord(password: string, hashedPassword : string): Promise<boolean> {
     try {
-        const match = await bcrypt.compare(password, hashedPassword);
+        const match = bcrypt.compare(password, hashedPassword,)
         return match;
     } catch (error) {
-        throw new Error('Error comparing passwords')
+        console.error('Error comparing passwords:', error);
+        return false; 
     }
 }

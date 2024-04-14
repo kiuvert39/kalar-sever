@@ -1,9 +1,9 @@
 import { CustomeError } from "../utils/CustomError"
 
 export class databaseError extends CustomeError{
-    statusCode = 500
-    constructor(public message :string){
-        super(message)
+
+    constructor(public message :string,  public statusCode: number){
+        super(message, statusCode)
         Object.setPrototypeOf(this, databaseError.prototype)
     }
     serialize(): { message: string } {

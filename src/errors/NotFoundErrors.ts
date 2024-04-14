@@ -1,9 +1,9 @@
 import { CustomeError } from "../utils/CustomError"
 
 export class NotFoundError extends CustomeError{
-    statusCode = 404
-    constructor(public message :string){
-        super(message)
+    
+    constructor(public message :string,  public statusCode: number){
+        super(message, statusCode)
         Object.setPrototypeOf(this, NotFoundError.prototype)
     }
     serialize(): { message: string } {
