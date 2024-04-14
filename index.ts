@@ -3,12 +3,13 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { dbConnection } from "./src/database/dbConnection";
-import {register,login, dash, Authstatus }from "./src/routes/Auth";
-import { golbalerror } from "./src/middlewwares/golbalError.middleware";
+import {register,login, dash, Authstatus, logOut }from "./src/routes/Auth";
+
 import 'express-async-errors'
-import { AuthErrors  } from "./src/errors/AuthError";
+
 import { NotFoundError } from "./src/errors/NotFoundErrors";
-import { status } from "./src/controllers/AuthStatus";
+
+import { logout } from "./src/controllers/Auth.logout";
 
 
 
@@ -19,7 +20,7 @@ const PORT: number = parseInt(process.env.PORT!, 10);
 
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: ["http://localhost:3001","https://easyelectroniecs.netlify.app","https://deploy-preview-17--easyelectroniecs.netlify.app"],
     credentials: true
 }))
 
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth/', register);
 app.use('/api/auth/', login);
+app.use('/api/auth/', logOut);
 app.use('/api/auth/', Authstatus);
 app.use('/api/auth/', dash);
 

@@ -52,8 +52,7 @@ export const logIn = async (
         secure: true,
         domain: "localhost",
         path: "/"
-      })
-        .json({ message: "logined in",user, token });
+      }).json({ message: "logined in",user, token });
     }
     
     return res.status(404).json({ message: "incorrect email or password"})

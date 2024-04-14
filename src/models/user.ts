@@ -33,6 +33,10 @@ export const User = sequelize.define('test', {
     token:{
         type: DataTypes.STRING,
         defaultValue: null
+    },  isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false // Default value for new users
     }
 }, {
     tableName: 'users',
