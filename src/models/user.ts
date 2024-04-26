@@ -1,7 +1,6 @@
 
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/dbConnection';
-import bcrypt from 'bcryptjs'
 
 export const User = sequelize.define('test', {
     id: {
@@ -33,10 +32,10 @@ export const User = sequelize.define('test', {
     token:{
         type: DataTypes.STRING,
         defaultValue: null
-    },  isAdmin: {
+    },isAdmin: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false // Default value for new users
+        defaultValue: false 
     }
 }, {
     tableName: 'users',
@@ -44,12 +43,12 @@ export const User = sequelize.define('test', {
   
 });
 
-User.sync({ alter:true })
+User.sync()
 .then(() =>{
-  console.log('test model sync to database');
+  console.log('user model sync to database');
 })
 .catch((err: string)=>{
-  console.log('error occured syncing user model')
+  console.log('error occured syncing user model');
 })
 
 

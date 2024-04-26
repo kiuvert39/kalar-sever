@@ -36,14 +36,14 @@ export const logIn = async (
       });
 
       existingUser.get().token = token;
-
+      
       const user = { 
         id: existingUser.get().id,
         Name: existingUser.get().name,
         email: existingUser.get().email,
         createdAt: existingUser.get().createdAt,
         updatedAt: existingUser.get().updatedAt,
-       }
+        admin:existingUser.get().isAdmin}
 
       res.cookie("token", token,{ 
         httpOnly: true,
