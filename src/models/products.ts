@@ -5,7 +5,7 @@ import { categorys } from './Category';
 
 export const Products =
     sequelize.define('Product', {
-        id: {
+        productId: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
@@ -61,6 +61,14 @@ export const Products =
                 notEmpty: true, 
             }
         },
+        UserId: {
+            type: DataTypes.UUID, // Assuming user IDs are UUIDs
+            allowNull: false,
+            references: {
+                model: 'users', // Name of the user model
+                key: 'id'       // Name of the user ID field
+            }
+        }
 
 },{
     tableName: 'products',
@@ -78,6 +86,6 @@ Products.sync({ alter: true })
 })
 
 //  relationships
-// User.hasMany(Products)
-// Products.belongsTo(User)
+User.hasMany(Products)
+Products.belongsTo(User)
 Products.belongsTo(categorys, { foreignKey: 'categoryId' });

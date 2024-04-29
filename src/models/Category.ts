@@ -19,7 +19,6 @@ export  const  categorys = sequelize.define("category",{
 }) 
 
 
-
 categorys.sync({ alter: true })
 .then(() =>{
     console.log('category model sync to database');
