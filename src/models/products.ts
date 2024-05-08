@@ -68,6 +68,9 @@ export const Products =
                 model: 'users', // Name of the user model
                 key: 'id'       // Name of the user ID field
             }
+        },
+        testId:{
+            type: DataTypes.STRING
         }
 
 },{

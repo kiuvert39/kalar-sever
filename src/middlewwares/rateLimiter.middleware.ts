@@ -12,6 +12,5 @@ export  const loginLimiter: RateLimitRequestHandler = rateLimit({
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
         console.log(ip);
         return Array.isArray(ip) ? ip[0] : ip;      
-        
     }
   });

@@ -1,7 +1,6 @@
 import express from 'express'
 import { createProductController } from '../controllers/productsController/newProduct.controller'
 import { verifyJwt } from '../middlewwares/jwtVerification'
-import { isAdmin } from '../middlewwares/isAdmin.middleware';
 import multer from 'multer';
 
 const upload  =multer({ dest: 'uploads/' });

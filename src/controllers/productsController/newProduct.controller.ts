@@ -5,22 +5,22 @@ import { categorys } from "../../models/Category";
 import { User } from "../../models/user";
 import { Op } from "sequelize";
 
-export default cloudinary.config({
+export default  cloudinary.config({
   cloud_name: "dczzafdcx",
   api_key: "186811237139555",
-  api_secret: "DnI7ftTrtim0m0JJ7ZsJl37Bs8s",
+  api_secret: "DnI7ftTrtim0m0JJ7ZsJl37Bs8s"
 });
 
 export async function uploadImage(imagePath: string): Promise<string> {
-  console.log(imagePath); 
-  try {
-    const result = await cloudinary.uploader.upload(imagePath);
-    return result.secure_url;
-  } catch (error: any) {
-    console.log(error);
-    throw new Error(`Error uploading image to Cloudinary: ${error}`);
-  }
+try {
+  const result = await cloudinary.uploader.upload(imagePath);
+  return result.secure_url;
+} catch (error:any) {
+  console.log(error);
+  
+  throw new Error(`Error uploading image to Cloudinary: ${error.message}`);
 }
+};
 
 export const createProductController = async (
   req: Request,

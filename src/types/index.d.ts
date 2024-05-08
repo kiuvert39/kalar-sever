@@ -8,7 +8,6 @@ declare global {
       password: string;
       users?: {
         isAdmin: boolean;
-        // Add other user properties as needed
       };
     } 
   }

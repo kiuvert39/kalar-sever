@@ -4,11 +4,9 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   
   const user = getUserFromToken(req.headers.authorization);
     if (req.users && req.users.isAdmin) {
-        console.log(req.users.isAdmin);
-        
+        console.log(req.users.isAdmin);        
       next();
-    } else {
-  
+    } else {  
       return res.status(401).json({ error: 'Unauthorized' });
     }
   };
