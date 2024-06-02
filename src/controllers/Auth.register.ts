@@ -1,6 +1,4 @@
-import { hashedPw } from '../helpers/hashedpassword';
 import { Request, Response, NextFunction } from 'express';
-import { Secret } from 'jsonwebtoken'
 import dotenv from 'dotenv';
 import { AuthErrors } from '../errors/AuthError';
 import { User } from '../models/user';

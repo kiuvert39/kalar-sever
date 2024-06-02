@@ -70,7 +70,9 @@ export const Products =
             }
         },
         testId:{
-            type: DataTypes.STRING
+            type: DataTypes.UUID, // Changed from VARCHAR to UUID
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
         }
 
 },{

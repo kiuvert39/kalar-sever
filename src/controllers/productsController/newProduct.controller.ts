@@ -13,7 +13,12 @@ export default  cloudinary.config({
 
 export async function uploadImage(imagePath: string): Promise<string> {
 try {
-  const result = await cloudinary.uploader.upload(imagePath);
+  const result = await cloudinary.uploader.upload(imagePath,{
+    transformation: [
+     
+      { effect: 'bgremoval' }                   // Remove background
+    ]
+  });
   return result.secure_url;
 } catch (error:any) {
   console.log(error);
