@@ -6,7 +6,9 @@ declare global {
       id: string;
       token: string;
       password: string;
-
+      users?: {
+        isAdmin: boolean;
+      };
     } 
   }
 }

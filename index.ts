@@ -4,14 +4,9 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { dbConnection } from "./src/database/dbConnection";
 import {register,login, dash, Authstatus, logOut }from "./src/routes/Auth";
-
 import 'express-async-errors'
-
 import { NotFoundError } from "./src/errors/NotFoundErrors";
-import { new_product } from "./src/routes/product.router";
-
-
-
+import { get_products, get_productsByID, new_product } from "./src/routes/product.router";
 
 
 dbConnection()
@@ -19,9 +14,8 @@ dotenv.config()
 const app = express()
 const PORT: number = parseInt(process.env.PORT!, 10);
 
-
 app.use(cors({
-    origin: ["http://localhost:3000","https://easyelectroniecs.netlify.app","https://deploy-preview-17--easyelectroniecs.netlify.app"],
+    origin: ["http://localhost:3000","https://kalartech.netlify.app","https://deploy-preview-23--kalartech.netlify.app","https://kalar.vercel.app"],
     credentials: true
 }))
 
@@ -35,8 +29,9 @@ app.use('/api/auth/', login);
 app.use('/api/auth/', logOut);
 app.use('/api/auth/', Authstatus);
 app.use('/api/auth/', dash);
-
 app.use('/api/product', new_product)
+app.use('/api/product', get_products)
+app.use('/api/product/', get_productsByID )
 
 
 

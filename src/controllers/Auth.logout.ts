@@ -1,6 +1,5 @@
-import { User } from "../models/user";
 import { Request, Response, NextFunction } from "express";
-import { Op } from "sequelize";
+
 
 
 export const logout = async (
