@@ -46,13 +46,15 @@ export const sendVerificationEmail = async (email: string) => {
         await User.update({ token }, { where: { email } });
 
         const mailOptions = {
-            from: 'your-email@gmail.com',
+            from: 'kliuvertegbe@gmail.com',
             to: email,
             subject: mail,
             text: `Click this link to verify your email: ${verificationUrl}`,
           };
 
         return transporter.sendMail(mailOptions);  
+        console.log(mailOptions);
+        
 
     }
     catch(err){ 

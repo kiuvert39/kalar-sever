@@ -54,12 +54,13 @@ const sendVerificationEmail = (email) => __awaiter(void 0, void 0, void 0, funct
     try {
         yield user_1.User.update({ token }, { where: { email } });
         const mailOptions = {
-            from: 'your-email@gmail.com',
+            from: 'kliuvertegbe@gmail.com',
             to: email,
             subject: mail,
             text: `Click this link to verify your email: ${verificationUrl}`,
         };
         return transporter.sendMail(mailOptions);
+        console.log(mailOptions);
     }
     catch (err) {
         console.log(err);
