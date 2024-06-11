@@ -1,9 +1,9 @@
-import { User } from "../models/user";
 import { Request, Response, NextFunction } from "express";
-import { AuthErrors } from "../errors/AuthError";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
 import bcrypt from "bcryptjs";
+import { AuthErrors } from "../../errors/AuthError";
+import { User } from "../../models/user";
 
 export const logIn = async (
   req: Request,
