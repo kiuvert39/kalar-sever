@@ -1,16 +1,15 @@
 import { Sequelize } from 'sequelize';
-import { databaseError } from '../errors/DatabaseError';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config()
 
 
-export const sequelize = new Sequelize({
-    dialect: 'postgres',
-    host: 'localhost',
-    username: "postgres",
-    password: "Winner39@",
-    database: "postgres",
-  })
+
+if (!process.env.DB_STRING) {
+    throw new Error('DB_STRING is not defined in the environment variables.');
+  }
+
+export const sequelize = new Sequelize(process.env.DB_STRING)
+
 
 export async function dbConnection() {
     try {

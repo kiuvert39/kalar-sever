@@ -1,12 +1,11 @@
-import { hashedPw } from '../helpers/hashedpassword';
 import { Request, Response, NextFunction } from 'express';
-import { Secret } from 'jsonwebtoken'
 import dotenv from 'dotenv';
-import { AuthErrors } from '../errors/AuthError';
-import { User } from '../models/user';
+import { AuthErrors } from '../../errors/AuthError';
+import { User } from '../../models/user';
 import { Op } from 'sequelize';
 import jwt  from 'jsonwebtoken';
 import bcrypt from 'bcryptjs'
+import { sendVerificationEmail } from '../../services/emailService';
 
 dotenv.config()
 
@@ -27,6 +26,8 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
 
         const hashedPassword = await bcrypt.hash(password,12)
         const user = await User.create({Name,email,password: hashedPassword})
+
+        await sendVerificationEmail(email);
 
         const newUser: object = {
             id: user.get('id'),
@@ -51,14 +52,25 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
 }
 
 
-const refreshToken = (req: Request, res:Response) =>{
-    try{
+export const verifyEmail = async (req: Request, res: Response) => {
+  const { token, email } = req.query;
 
-        const cook = req.cookies
+  if (typeof token !== 'string' || typeof email !== 'string') {
+    return res.status(400).send('Invalid query parameters');
+  }
 
-        if(!cook?.jwt) return res.status(401)
+  try {
+    const user = await User.findOne({ where: { email, token } });
 
-    }catch(error){
-        
+    if (user) {
+      user.get().verified = true;
+      user.get().token = null;
+      await user.save();
+      return res.status(200).send('Email verified successfully');
     }
-}
+
+    res.status(400).send('Invalid or expired token');
+  } catch (error) {
+    res.status(500).send('Error verifying email');
+  }
+};

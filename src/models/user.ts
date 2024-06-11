@@ -29,14 +29,19 @@ export const User = sequelize.define('test', {
             len: [8, 255]
         }
     },
-    token:{
-        type: DataTypes.STRING,
-        defaultValue: null
-    },isAdmin: {
+    isAdmin: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false 
-    }
+    },
+    verified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+    token: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 }, {
     tableName: 'users',
     timestamps: true,
