@@ -29,21 +29,21 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
 
         await sendVerificationEmail(email);
 
-        const newUser: object = {
-            id: user.get('id'),
-            Name: user.get('Name'), // Access the 'Name' property using the get method
-            email: user.get('email'),
-            password: user.get('password')
-        };
+        // const newUser: object = {
+        //     id: user.get('id'),
+        //     Name: user.get('Name'), // Access the 'Name' property using the get method
+        //     email: user.get('email'),
+        //     password: user.get('password')
+        // };
        
-        const token = jwt.sign({},`${process.env.secret_key}`, {expiresIn: '1s'} )
+        // const token = jwt.sign({},`${process.env.secret_key}`, {expiresIn: '1s'} )
 
-        const options = {
-            expires: new Date(Date.now() + 1000),
-            httpOnly: true
-        };
+        // const options = {
+        //     expires: new Date(Date.now() + 1000),
+        //     httpOnly: true
+        // };
 
-        res.status(201).cookie("token", token, options).json({message: " user created", newUser, token})
+        res.status(201).json({message: " user created", })
     }
     catch (error) {
         next(error);
