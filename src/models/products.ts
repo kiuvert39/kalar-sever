@@ -92,5 +92,6 @@ Products.sync({ alter: true })
 
 //  relationships
 User.hasMany(Products)
-Products.belongsTo(User)
+Products.belongsTo(User,{ foreignKey: 'UserId' })
 Products.belongsTo(categorys, { foreignKey: 'categoryId' });
+

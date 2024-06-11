@@ -1,12 +1,13 @@
 import express from 'express'
-import {signUp} from '../controllers/Auth.register'
-import { logIn } from '../controllers/Auth.logIn'
+import {signUp} from '../controllers/Auth/Auth.register'
+
 
 import { verifyJwt } from '../middlewwares/jwtVerification'
-import { dashIn } from '../controllers/dashoard'
-import { status } from '../controllers/AuthStatus'
-import { logout } from '../controllers/Auth.logout'
+import { dashIn } from '../controllers/Auth/dashoard'
+import { status } from '../controllers/Auth/AuthStatus'
+import { logout } from '../controllers/Auth/Auth.logout'
 import { loginLimiter } from '../middlewwares/rateLimiter.middleware'
+import { logIn } from '../controllers/Auth/Auth.logIn'
 export const Authrout = express.Router()
 
 export const register = Authrout.post('/register', signUp)

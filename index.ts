@@ -7,6 +7,7 @@ import {register,login, dash, Authstatus, logOut }from "./src/routes/Auth";
 import 'express-async-errors'
 import { NotFoundError } from "./src/errors/NotFoundErrors";
 import { get_products, get_productsByID, new_product } from "./src/routes/product.router";
+import { verifyEmail } from "./src/controllers/Auth/Auth.register";
 
 
 dbConnection()
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/api/auth/', register);
+app.get('/verify-email', verifyEmail);
 app.use('/api/auth/', login);
 app.use('/api/auth/', logOut);
 app.use('/api/auth/', Authstatus);

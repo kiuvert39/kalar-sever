@@ -12,13 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signUp = void 0;
+exports.verifyEmail = exports.signUp = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
-const AuthError_1 = require("../errors/AuthError");
-const user_1 = require("../models/user");
+const AuthError_1 = require("../../errors/AuthError");
+const user_1 = require("../../models/user");
 const sequelize_1 = require("sequelize");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const emailService_1 = require("../../services/emailService");
 dotenv_1.default.config();
 const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { Name, email, password } = req.body;
@@ -34,6 +35,7 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         }
         const hashedPassword = yield bcryptjs_1.default.hash(password, 12);
         const user = yield user_1.User.create({ Name, email, password: hashedPassword });
+        yield (0, emailService_1.sendVerificationEmail)(email);
         const newUser = {
             id: user.get('id'),
             Name: user.get('Name'), // Access the 'Name' property using the get method
@@ -52,12 +54,23 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.signUp = signUp;
-const refreshToken = (req, res) => {
+const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { token, email } = req.query;
+    if (typeof token !== 'string' || typeof email !== 'string') {
+        return res.status(400).send('Invalid query parameters');
+    }
     try {
-        const cook = req.cookies;
-        if (!(cook === null || cook === void 0 ? void 0 : cook.jwt))
-            return res.status(401);
+        const user = yield user_1.User.findOne({ where: { email, token } });
+        if (user) {
+            user.get().verified = true;
+            user.get().token = null;
+            yield user.save();
+            return res.status(200).send('Email verified successfully');
+        }
+        res.status(400).send('Invalid or expired token');
     }
     catch (error) {
+        res.status(500).send('Error verifying email');
     }
-};
+});
+exports.verifyEmail = verifyEmail;
