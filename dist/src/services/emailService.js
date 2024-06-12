@@ -26,38 +26,37 @@ const transporter = nodemailer_1.default.createTransport({
 });
 const sendVerificationEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const mailGenerator = new mailgen_1.default({
-        theme: "default",
+        theme: 'default',
         product: {
             name: 'mail',
             link: 'https://mailgen.js/'
         }
     });
     const token = crypto_1.default.randomBytes(32).toString('hex');
+    const verificationUrl = `https://kalar-sever.onrender.com/verify-email?token=${token}&email=${email}`;
     let response = {
         body: {
-            name: "Daily Tuition",
-            intro: "Your bill has arrived!",
-            table: {
-                data: [
-                    {
-                        item: "Nodemailer Stack Book",
-                        description: "A Backend application",
-                        price: "$10.99",
-                    }
-                ]
+            name: 'John Appleseed',
+            intro: 'Welcome to Mailgen! We\'re very excited to have you on board.',
+            action: {
+                instructions: 'To get started with Mailgen, please click here:',
+                button: {
+                    color: '#22BC66', // Optional action button color
+                    text: 'Confirm your account',
+                    link: `${verificationUrl}`
+                }
             },
-            outro: "Looking forward to do more business"
+            outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
         }
     };
     let mail = mailGenerator.generate(response);
-    const verificationUrl = `https://kalar-sever.onrender.com/verify-email?token=${token}&email=${email}`;
     try {
         yield user_1.User.update({ token }, { where: { email } });
         const mailOptions = {
             from: 'kliuvertegbe@gmail.com',
             to: email,
-            subject: mail,
-            text: `Click this link to verify your email: ${verificationUrl}`,
+            subject: 'Verification Email',
+            html: mail,
         };
         return transporter.sendMail(mailOptions);
         console.log(mailOptions);
