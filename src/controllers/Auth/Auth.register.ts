@@ -55,16 +55,19 @@ export const verifyEmail = async (req: Request, res: Response) => {
     const user = await User.findOne({ where: { email, token } });
 
     if (user) {
-      user.get().verified = true;
-      user.get().token = null;
+      user.set({
+        verified: true,
+        token: null
+      });
       await user.save();
-      console.log('user verified',user);
+      console.log('User verified:', user);
       
       return res.status(200).send('Email verified successfully');
     }
 
-    res.status(400).send('Invalid or expired token');
+    return res.status(400).send('Invalid or expired token');
   } catch (error) {
-    res.status(500).send('Error verifying email');
+    console.error('Error verifying email:', error);
+    return res.status(500).send('Error verifying email');
   }
 };
