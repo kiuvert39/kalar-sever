@@ -61,7 +61,6 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 token: null
             });
             yield user.save();
-            console.log('User verified:', user);
             return res.redirect('https://mail.google.com/');
         }
         return res.status(400).send('Invalid or expired token');
