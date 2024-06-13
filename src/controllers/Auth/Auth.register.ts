@@ -25,25 +25,17 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
         }
 
         const hashedPassword = await bcrypt.hash(password,12)
-        const user = await User.create({Name,email,password: hashedPassword})
+        const user = await User.create({Name,email,password: hashedPassword});
 
         await sendVerificationEmail(email);
 
-        // const newUser: object = {
-        //     id: user.get('id'),
-        //     Name: user.get('Name'), // Access the 'Name' property using the get method
-        //     email: user.get('email'),
-        //     password: user.get('password')
-        // };
-       
-        // const token = jwt.sign({},`${process.env.secret_key}`, {expiresIn: '1s'} )
-
-        // const options = {
-        //     expires: new Date(Date.now() + 1000),
-        //     httpOnly: true
-        // };
-
-        res.status(201).json({message: " user created", })
+        const newUser: object = {
+            id: user.get('id'),
+            Name: user.get('Name'),
+            email: user.get('email'),
+            password: user.get('password')
+        };
+        res.status(201).json({message: " user created",newUser})
     }
     catch (error) {
         next(error);
@@ -66,6 +58,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
       user.get().verified = true;
       user.get().token = null;
       await user.save();
+      console.log('user verified',user);
+      
       return res.status(200).send('Email verified successfully');
     }
 

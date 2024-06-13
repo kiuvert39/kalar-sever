@@ -48,13 +48,10 @@ export const sendVerificationEmail = async (email: string) => {
             from: 'kliuvertegbe@gmail.com',
             to: email,
             subject: 'Verification Email',
-            html: mail,
-    
+            html: mail,    
           };
 
-        return transporter.sendMail(mailOptions);  
-        console.log(mailOptions);
-        
+        return transporter.sendMail(mailOptions);    
 
     }
     catch(err){ 

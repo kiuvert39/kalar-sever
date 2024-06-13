@@ -59,7 +59,6 @@ const sendVerificationEmail = (email) => __awaiter(void 0, void 0, void 0, funct
             html: mail,
         };
         return transporter.sendMail(mailOptions);
-        console.log(mailOptions);
     }
     catch (err) {
         console.log(err);
