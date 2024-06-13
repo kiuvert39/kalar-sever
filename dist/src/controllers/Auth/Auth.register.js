@@ -35,18 +35,13 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         const hashedPassword = yield bcryptjs_1.default.hash(password, 12);
         const user = yield user_1.User.create({ Name, email, password: hashedPassword });
         yield (0, emailService_1.sendVerificationEmail)(email);
-        // const newUser: object = {
-        //     id: user.get('id'),
-        //     Name: user.get('Name'), // Access the 'Name' property using the get method
-        //     email: user.get('email'),
-        //     password: user.get('password')
-        // };
-        // const token = jwt.sign({},`${process.env.secret_key}`, {expiresIn: '1s'} )
-        // const options = {
-        //     expires: new Date(Date.now() + 1000),
-        //     httpOnly: true
-        // };
-        res.status(201).json({ message: " user created", });
+        const newUser = {
+            id: user.get('id'),
+            Name: user.get('Name'),
+            email: user.get('email'),
+            password: user.get('password')
+        };
+        res.status(201).json({ message: " user created", newUser });
     }
     catch (error) {
         next(error);
@@ -64,6 +59,7 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             user.get().verified = true;
             user.get().token = null;
             yield user.save();
+            console.log('user verified', user);
             return res.status(200).send('Email verified successfully');
         }
         res.status(400).send('Invalid or expired token');
