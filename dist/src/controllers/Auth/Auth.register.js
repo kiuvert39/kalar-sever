@@ -19,12 +19,20 @@ const user_1 = require("../../models/user");
 const sequelize_1 = require("sequelize");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const emailService_1 = require("../../services/emailService");
+const verifyEmailExists_1 = require("../../helpers/verifyEmailExists");
 dotenv_1.default.config();
 const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { Name, email, password } = req.body;
     try {
         if (!Name || !email || !password) {
             return next(new AuthError_1.AuthErrors("all fields are required", 404));
+        }
+        const verificationResult = yield (0, verifyEmailExists_1.verifyEmailExists)(email);
+        if (verificationResult.status !== 'valid') {
+            return res.status(400).json({
+                message: 'The email address does not exist.',
+                reason: verificationResult.sub_status || verificationResult.error
+            });
         }
         const userexist = yield user_1.User.findOne({ where: {
                 [sequelize_1.Op.or]: [{ Name: { [sequelize_1.Op.eq]: Name } }, { email: { [sequelize_1.Op.eq]: email } }]
