@@ -60,7 +60,6 @@ export const verifyEmail = async (req: Request, res: Response) => {
         token: null
       });
       await user.save();
-      console.log('User verified:', user);
       
       return res.redirect('https://mail.google.com/');
     }
