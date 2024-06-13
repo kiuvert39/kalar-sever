@@ -62,7 +62,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
       await user.save();
       console.log('User verified:', user);
       
-      return res.status(200).send('Email verified successfully');
+      return res.redirect('https://mail.google.com/');
     }
 
     return res.status(400).send('Invalid or expired token');
