@@ -47,7 +47,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
             email: user.get('email'),
             password: user.get('password')
         };
-        res.status(201).json({message: " user created",newUser})
+        res.status(201).json({message: " user created",newUser,verifyemail:"please verify your email!"})
     }
     catch (error) {
         next(error);
