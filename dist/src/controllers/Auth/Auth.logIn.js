@@ -32,6 +32,9 @@ const logIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (!existingUser) {
             return res.status(404).json({ message: "incorrect email or password" });
         }
+        if (!existingUser.get().verified) {
+            return res.status(400).json({ message: 'Email not verified. Please check your inbox.' });
+        }
         const isMatch = yield bcryptjs_1.default.compare(password, existingUser.get().password);
         if (isMatch) {
             const token = jsonwebtoken_1.default.sign({ id: existingUser.get().id }, `${process.env.secret_key}`, {
@@ -40,10 +43,9 @@ const logIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             existingUser.get().token = token;
             const user = {
                 id: existingUser.get().id,
-                Name: existingUser.get().name,
+                Name: existingUser.get().Name,
                 email: existingUser.get().email,
                 createdAt: existingUser.get().createdAt,
-                updatedAt: existingUser.get().updatedAt,
                 admin: existingUser.get().isAdmin
             };
             res.cookie("token", token, {

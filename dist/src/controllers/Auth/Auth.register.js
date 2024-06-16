@@ -49,7 +49,7 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             email: user.get('email'),
             password: user.get('password')
         };
-        res.status(201).json({ message: " user created", newUser });
+        res.status(201).json({ message: " user created", newUser, verifyemail: "please verify your email!" });
     }
     catch (error) {
         next(error);
