@@ -6,6 +6,7 @@ interface ZeroBounceResponse {
   status: string;
   sub_status: string;
   error?: string;
+  
 }
 
 export  async function verifyEmailExists(email: string): Promise<ZeroBounceResponse> {

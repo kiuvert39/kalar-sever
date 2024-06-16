@@ -5,6 +5,11 @@ import bcrypt from "bcryptjs";
 import { AuthErrors } from "../../errors/AuthError";
 import { User } from "../../models/user";
 
+
+interface Verify{
+  verified:string
+}
+
 export const logIn = async (
   req: Request,
   res: Response,
@@ -22,9 +27,12 @@ export const logIn = async (
       },
     });
 
-
     if (!existingUser) {
       return res.status(404).json({ message: "incorrect email or password"});
+    }
+
+    if (!existingUser.get().verified) {
+      return res.status(400).json({message:'Email not verified. Please check your inbox.'});
     }
 
     const isMatch = await bcrypt.compare(password, existingUser.get().password)
@@ -39,10 +47,9 @@ export const logIn = async (
       
       const user = { 
         id: existingUser.get().id,
-        Name: existingUser.get().name,
+        Name: existingUser.get().Name,
         email: existingUser.get().email,
         createdAt: existingUser.get().createdAt,
-        updatedAt: existingUser.get().updatedAt,
         admin:existingUser.get().isAdmin}
 
       res.cookie("token", token,{ 
