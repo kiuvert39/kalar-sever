@@ -32,7 +32,7 @@ export const logIn = async (
     }
 
     if (!existingUser.get().verified) {
-      return res.status(400).json({message:'Email not verified. Please check your inbox.'});
+      return res.status(400).json({message:'Email not verified.check your inbox.'});
     }
 
     const isMatch = await bcrypt.compare(password, existingUser.get().password)
