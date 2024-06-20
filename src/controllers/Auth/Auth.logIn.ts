@@ -94,7 +94,7 @@ export const verifyOtp = async (req:Request, res:Response, next:NextFunction) =>
     const { email, otp } = req.body;
 
     if (!email || !otp) {
-      return res.status(400).json({ message: 'Email and OTP are required' });
+      return res.status(404).json({ message: 'Email and OTP are required' });
     }
 
     // Find the user record in the database
