@@ -27,6 +27,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/api/auth/', Auth_1.register);
 app.get('/verify-email', Auth_register_1.verifyEmail);
 app.use('/api/auth/', Auth_1.login);
+app.use('/api/', Auth_1.verifyotp);
 app.use('/api/auth/', Auth_1.logOut);
 app.use('/api/auth/', Auth_1.Authstatus);
 app.use('/api/auth/', Auth_1.dash);

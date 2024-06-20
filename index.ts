@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { dbConnection } from "./src/database/dbConnection";
-import {register,login, dash, Authstatus, logOut }from "./src/routes/Auth";
+import {register,login, dash, Authstatus, logOut, verifyotp }from "./src/routes/Auth";
 import 'express-async-errors'
 import { NotFoundError } from "./src/errors/NotFoundErrors";
 import { get_products, get_productsByID, new_product } from "./src/routes/product.router";
 import { verifyEmail } from "./src/controllers/Auth/Auth.register";
+import { verifyOtp } from "./src/controllers/Auth/Auth.logIn";
 
 
 dbConnection()
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth/', register);
 app.get('/verify-email', verifyEmail);
 app.use('/api/auth/', login);
+app.use('/api/', verifyotp)
 app.use('/api/auth/', logOut);
 app.use('/api/auth/', Authstatus);
 app.use('/api/auth/', dash);

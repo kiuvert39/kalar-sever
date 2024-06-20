@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendVerificationEmail = void 0;
+exports.sendVerificationEmail = exports.transporter = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const user_1 = require("../models/user");
 const crypto_1 = __importDefault(require("crypto"));
 const mailgen_1 = __importDefault(require("mailgen"));
-const transporter = nodemailer_1.default.createTransport({
+exports.transporter = nodemailer_1.default.createTransport({
     service: "Gmail",
     auth: {
         user: process.env.EMAIL,
@@ -58,7 +58,7 @@ const sendVerificationEmail = (email) => __awaiter(void 0, void 0, void 0, funct
             subject: "Verification Email",
             html: mail,
         };
-        return transporter.sendMail(mailOptions);
+        return exports.transporter.sendMail(mailOptions);
     }
     catch (err) {
         console.log(err);

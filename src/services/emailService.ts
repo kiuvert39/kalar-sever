@@ -3,7 +3,7 @@ import { User } from "../models/user";
 import crypto from "crypto";
 import Mailgen from "mailgen";
 
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: process.env.EMAIL,

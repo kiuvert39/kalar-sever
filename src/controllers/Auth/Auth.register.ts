@@ -10,14 +10,12 @@ import { verifyEmailExists } from '../../helpers/verifyEmailExists';
 dotenv.config()
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
-    const { Name, email,password} = req.body
-   
+    const { Name, email,password} = req.body  
 
     try {
         if (!Name || !email || !password ) {
             return next(new AuthErrors("all fields are required",404));
         }
-
         const verificationResult = await verifyEmailExists(email);
 
         if (verificationResult.status !== 'valid') {
@@ -26,7 +24,6 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
             reason: verificationResult.sub_status || verificationResult.error
           });
         }
-    
 
         const userexist = await User.findOne({ where: { 
             [Op.or]: [{ Name: { [Op.eq]: Name } }, { email: { [Op.eq]: email } }] 

@@ -43,11 +43,15 @@ exports.User = dbConnection_1.sequelize.define('test', {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
+    otp: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
 }, {
     tableName: 'users',
     timestamps: true,
 });
-exports.User.sync()
+exports.User.sync({ alter: true })
     .then(() => {
     console.log('user model sync to database');
 })
