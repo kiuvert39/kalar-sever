@@ -11,7 +11,7 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendVerificationEmail = async (email: string) => {
+export const sendVerificationEmail = async (email: string,name:string) => {
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {
@@ -23,20 +23,21 @@ export const sendVerificationEmail = async (email: string) => {
   const verificationUrl = `https://kalar-sever.onrender.com/verify-email?token=${token}&email=${email}`;
   let response = {
     body: {
-      name: "John Appleseed",
-      intro: "Welcome to Mailgen! We're very excited to have you on board.",
+      name: `${name}`,
+      intro: "Welcome to TechGrove! We're thrilled to have you with us.",
       action: {
-        instructions: "To get started with Mailgen, please click here:",
+        instructions: "To complete your registration and verify your email address, please click the button below:",
         button: {
-          color: "#22BC66", // Optional action button color
-          text: "Confirm your account",
+          color: "#22BC66", // Button color
+          text: "Confirm Your Account",
           link: `${verificationUrl}`,
         },
       },
-      outro:
-        "Need help, or have questions? Just reply to this email, we'd love to help.",
+      outro: "If you have any questions or need assistance, simply reply to this email. Our team is here to help you.",
+      signature: "Best regards,\nThe TechGrove Team",
     },
   };
+  
   let mail = mailGenerator.generate(response);
 
   try {

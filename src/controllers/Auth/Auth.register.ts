@@ -36,7 +36,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
         const hashedPassword = await bcrypt.hash(password,12)
         const user = await User.create({Name,email,password: hashedPassword});
 
-        await sendVerificationEmail(email);
+        await sendVerificationEmail(email,Name);
 
         const newUser: object = {
             id: user.get('id'),
