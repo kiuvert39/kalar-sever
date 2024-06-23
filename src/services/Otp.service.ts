@@ -1,5 +1,6 @@
 import { transporter } from "./emailService";
 
+
 export function sendOTP(email: any, otp: any) {
     const mailOptions = {
       from: process.env.EMAIL,
